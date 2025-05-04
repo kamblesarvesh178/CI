@@ -1,0 +1,61 @@
+# Fuzzy Sets A and B
+A = {'a': 0.2, 'b': 0.7, 'c': 0.6, 'd': 0.6}
+B = {'a': 0.4, 'b': 0.3, 'c': 0.8, 'd': 0.6}
+print("Fuzzy set A:",A)
+print("Fuzzy set B:",B)
+
+# UNION: max(A(x), B(x)) for each element
+A_union_B = {}
+for key in A:
+    A_union_B[key] = max(A[key], B[key])
+
+print("Union of A and B:", A_union_B)
+
+# INTERSECTION: min(A(x), B(x)) for each element
+A_intersect_B = {}
+for key in A:
+    A_intersect_B[key] = min(A[key], B[key])
+
+print("Intersection of A and B:", A_intersect_B)
+
+# COMPLEMENT: 1 - A(x) for each element in A
+A_complement = {}
+for key in A:
+    A_complement[key] = 1 - A[key]
+
+print("Complement of A:", A_complement)
+
+# DIFFERENCE: min(A(x), 1 - B(x)) for each element
+A = {'a': 0.2, 'b': 0.3, 'c': 0.6, 'd': 0.6}
+B = {'a': 0.9, 'b': 0.9, 'c': 0.8, 'd': 0.6}
+A_difference_B = {}
+for key in A:
+    A_difference_B[key] = min(A[key], 1 - B[key])
+
+print("Difference of A and B:", A_difference_B)
+
+# CARTESIAN PRODUCT: min(A(x), B(y)) for all pairs (x, y)
+A = {'a': 0.2, 'b': 0.3}
+B = {'c': 0.8, 'd': 0.6}
+A_cartesian_B = {}
+for a_key in A:
+    for b_key in B:
+        A_cartesian_B[(a_key, b_key)] = min(A[a_key], B[b_key])
+
+print("Cartesian Product of A and B:", A_cartesian_B)
+
+# MAX-MIN COMPOSITION: for fuzzy relations R and S
+R = {('x1', 'y1'): 0.3, ('x1', 'y2'): 0.7}
+S = {('y1', 'z1'): 0.5, ('y2', 'z1'): 0.8}
+composition_result = {}
+
+for (x, y1) in R:
+    for (y2, z) in S:
+        if y1 == y2:
+            value = min(R[(x, y1)], S[(y2, z)])
+            if (x, z) in composition_result:
+                composition_result[(x, z)] = max(composition_result[(x, z)], value)
+            else:
+                composition_result[(x, z)] = value
+
+print("Max-Min Composition (R o S):", composition_result)
